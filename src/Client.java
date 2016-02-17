@@ -9,16 +9,20 @@ import java.util.Scanner;
  */
 public class Client {
 
+    private static Scanner input;
+    private static BufferedReader in;
+    private static DataOutputStream out;
+
     public static void main(String[] args) throws Exception {
 
-        Scanner input = new Scanner(System.in);
+        input = new Scanner(System.in);
 
         String melding = "Hello World!";
         String nyMelding = "";
 
         Socket clientSocket = new Socket("127.0.0.1", 7001);
-        DataOutputStream out = new DataOutputStream(clientSocket.getOutputStream());
-        BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+        out = new DataOutputStream(clientSocket.getOutputStream());
+        in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
 
         out.writeBytes(melding + "\n");
         nyMelding = in.readLine();
@@ -28,21 +32,21 @@ public class Client {
 
     }
 
-    public void menu(Scanner input){
+    public void menu() {
 
         boolean run = true;
         int valg = 0;
 
-        while(run){
+        while (run) {
 
             System.out.println("Klient - Meny:");
             System.out.println("--------------");
             System.out.println("1) Send \"Hello World!\"" + "\n2) Send ett tall (5)"
-            + "\n3) Avslutt server" + "\n0) Avslutt klient");
+                    + "\n3) Avslutt server" + "\n0) Avslutt klient");
 
             valg = input.nextInt();
 
-            switch (valg){
+            switch (valg) {
                 case 1:
                     sendMsg();
                     break;
@@ -62,11 +66,23 @@ public class Client {
 
     }
 
-    public void sendMsg(){
-
+    public void sendMsg() {
+        try {
+            out.writeBytes("Hello world!\n");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
-    public void sendInt(){
+    public void sendInt() {
+        try {
+            out.writeByte(5);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void exitServer() {
 
     }
 
