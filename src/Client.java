@@ -36,6 +36,8 @@ public class Client {
             System.out.println("2) Legg til nummer");
             System.out.println("3) Trekk fra nummer");
             System.out.println("4) Hent historie");
+            System.out.println("5) Stopp serveren");
+            System.out.println("6) Stopp klient");
 
             valg = input.nextInt();
 
@@ -52,6 +54,11 @@ public class Client {
                 case 4:
                     getHistory();
                     break;
+                case 5:
+                    killServer();
+                    break;
+                case 6:
+                    stopClient();
                 case 0:
                     System.out.println("Stopping.");
                     run = false;
@@ -107,6 +114,24 @@ public class Client {
             for (String s : historyTab) {
                 System.out.println(s);
             }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void killServer() {
+        try {
+            out.writeBytes("KILL\n");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void stopClient() {
+        try {
+            in.close();
+            out.close();
+            clientSocket.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
