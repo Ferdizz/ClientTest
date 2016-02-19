@@ -22,7 +22,6 @@ public class Client {
         while (run) {
             try {
                 input = new Scanner(System.in);
-
                 clientSocket = new Socket("127.0.0.1", 7001);
                 out = new DataOutputStream(clientSocket.getOutputStream());
                 in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
@@ -59,8 +58,6 @@ public class Client {
                     break;
                 case 6:
                     stopClient();
-                case 0:
-                    System.out.println("Stopping.");
                     run = false;
                     break;
             }
