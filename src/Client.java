@@ -16,7 +16,6 @@ public class Client {
     }
 
     public static void menu() {
-
         boolean run = true;
         int valg = 0;
 
@@ -24,7 +23,7 @@ public class Client {
             try {
                 input = new Scanner(System.in);
 
-                clientSocket = new Socket("10.0.0.5", 7001);
+                clientSocket = new Socket("127.0.0.1", 7001);
                 out = new DataOutputStream(clientSocket.getOutputStream());
                 in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
             } catch (IOException e) {
@@ -70,7 +69,7 @@ public class Client {
 
     public static void getNumber() {
         try {
-            out.writeBytes("ID 1 GET\n");
+            out.writeBytes("GET\n");
             System.out.println("Retur: " + in.readLine());
         } catch (Exception e) {
             e.printStackTrace();
@@ -81,7 +80,7 @@ public class Client {
         System.out.print("Enter number to add: ");
         int num = input.nextInt();
         try {
-            out.writeBytes("ID 1 ADD " + num + "\n");
+            out.writeBytes("ADD " + num + "\n");
             System.out.println("Retur: " + in.readLine());
         } catch (Exception e) {
             e.printStackTrace();
@@ -92,7 +91,7 @@ public class Client {
         System.out.print("Enter number to subtract: ");
         int num = input.nextInt();
         try {
-            out.writeBytes("ID 1 SUB " + num + "\n");
+            out.writeBytes("SUB " + num + "\n");
             System.out.println("Retur: " + in.readLine());
         } catch (Exception e) {
             e.printStackTrace();
@@ -101,9 +100,9 @@ public class Client {
 
     public static void getHistory() {
         try {
-            out.writeBytes("ID 1 HISTORY\n");
-            System.out.println("History: ");
+            out.writeBytes("HISTORY\n");
             String historyReturn = in.readLine();
+            System.out.println("History: ");
             String[] historyTab = historyReturn.split("NEW_LINE");
             for (String s : historyTab) {
                 System.out.println(s);
