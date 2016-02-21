@@ -18,16 +18,9 @@ public class Client {
     public static void menu() {
         boolean run = true;
         int valg = 0;
+        input = new Scanner(System.in);
 
         while (run) {
-            try {
-                input = new Scanner(System.in);
-                clientSocket = new Socket("127.0.0.1", 7001);
-                out = new DataOutputStream(clientSocket.getOutputStream());
-                in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
             System.out.println();
             System.out.println("Klient - Meny:");
             System.out.println("--------------");
@@ -42,18 +35,23 @@ public class Client {
 
             switch (valg) {
                 case 1:
+                    handshake();
                     getNumber();
                     break;
                 case 2:
+                    handshake();
                     addToNumber();
                     break;
                 case 3:
+                    handshake();
                     subFromNumber();
                     break;
                 case 4:
+                    handshake();
                     getHistory();
                     break;
                 case 5:
+                    handshake();
                     killServer();
                     break;
                 case 6:
@@ -68,6 +66,16 @@ public class Client {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+        }
+    }
+
+    public static void handshake() {
+        try {
+            clientSocket = new Socket("127.0.0.1", 7001);
+            out = new DataOutputStream(clientSocket.getOutputStream());
+            in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
