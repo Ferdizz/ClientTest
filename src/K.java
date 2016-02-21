@@ -17,7 +17,7 @@ import java.util.Scanner;
  * @version 1.0
  */
 public class K {
-    private static Scanner input;
+    private static Scanner scanner = new Scanner(System.in);
     private static Socket clientSocket;
     private static BufferedReader in;
     private static DataOutputStream out;
@@ -32,7 +32,6 @@ public class K {
     public static void menu() {
         boolean run = true;
         int valg = 0;
-        input = new Scanner(System.in);
 
         while (run) {
             System.out.println();
@@ -45,7 +44,7 @@ public class K {
             System.out.println("5) Stopp tjeneren");
             System.out.println("6) Stopp klienten");
 
-            valg = input.nextInt();
+            valg = getNumberFromKeyboard();
 
             switch (valg) {
                 case 1:
@@ -111,7 +110,7 @@ public class K {
      */
     public static void addToNumber() {
         System.out.print("Enter number to add: ");
-        int num = input.nextInt();
+        int num = scanner.nextInt();
         try {
             out.writeBytes("ADD " + num + "\n");
             System.out.println("Retur: " + in.readLine());
@@ -126,7 +125,7 @@ public class K {
      */
     public static void subFromNumber() {
         System.out.print("Enter number to subtract: ");
-        int num = input.nextInt();
+        int num = scanner.nextInt();
         try {
             out.writeBytes("SUB " + num + "\n");
             System.out.println("Retur: " + in.readLine());
@@ -143,7 +142,7 @@ public class K {
         try {
             out.writeBytes("HISTORY\n");
             String historyReturn = in.readLine();
-            System.out.println("History: ");
+            System.out.println("Historie: ");
             String[] historyTab = historyReturn.split("NEW_LINE");
             for (String s : historyTab) {
                 System.out.println(s);
@@ -176,5 +175,24 @@ public class K {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    /**
+     * Venter på at brukeren skriver inn et tall, sjekker om det er et tall og returner når det er et tall
+     *
+     * @return tallet
+     */
+    public static int getNumberFromKeyboard() {
+        int number = -1;
+        while (number == -1) {
+            System.out.println("\nVelg en handling: ");
+            String input = scanner.next();
+            try {
+                number = Integer.parseInt(input);
+            } catch (NumberFormatException e) {
+                System.out.println("ERROR: Du må skrive et nummer.");
+            }
+        }
+        return number;
     }
 }
