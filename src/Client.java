@@ -5,6 +5,17 @@ import java.io.InputStreamReader;
 import java.net.Socket;
 import java.util.Scanner;
 
+/**
+ * Klienten K
+ * <p/>
+ * Tilbyr bruker en enkel meny med mulighet til å be om,
+ * legge til og trekke fra et nummer. Kan også hente historien
+ * med oversikt over hvilke request det er gjort til tjeneren T.
+ * Til slutt kan man stoppe tjeneren og klienten.
+ *
+ * @author Jarand Homleid Haugen og Ferdinand Forgaard
+ * @version 1.0
+ */
 public class Client {
     private static Scanner input;
     private static Socket clientSocket;
@@ -15,6 +26,9 @@ public class Client {
         menu();
     }
 
+    /**
+     * Lager en enkel tekstbasert flervalgsmeny.
+     */
     public static void menu() {
         boolean run = true;
         int valg = 0;
@@ -28,8 +42,8 @@ public class Client {
             System.out.println("2) Legg til nummer");
             System.out.println("3) Trekk fra nummer");
             System.out.println("4) Hent historie");
-            System.out.println("5) Stopp serveren");
-            System.out.println("6) Stopp klient");
+            System.out.println("5) Stopp tjeneren");
+            System.out.println("6) Stopp klienten");
 
             valg = input.nextInt();
 
@@ -55,20 +69,20 @@ public class Client {
                     killServer();
                     break;
                 case 6:
-                    stopClient();
+                    closeConnection();
                     run = false;
                     break;
             }
-            try {
-                in.close();
-                out.close();
-                clientSocket.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+
+            closeConnection();
+
         }
     }
 
+    /**
+     * Kobler til tjeneren T via clientSocket.
+     * Setter opp out- og inputstream med clientSocket.
+     */
     public static void handshake() {
         try {
             clientSocket = new Socket("127.0.0.1", 7001);
@@ -79,6 +93,9 @@ public class Client {
         }
     }
 
+    /**
+     * Sender en forespørsel til tjeneren T hvor en ber om verdien til V.
+     */
     public static void getNumber() {
         try {
             out.writeBytes("GET\n");
@@ -88,6 +105,10 @@ public class Client {
         }
     }
 
+    /**
+     * Sender en forespørsel til tjeneren T hvor en ber om å legge til
+     * et nummer til verdien V.
+     */
     public static void addToNumber() {
         System.out.print("Enter number to add: ");
         int num = input.nextInt();
@@ -99,6 +120,10 @@ public class Client {
         }
     }
 
+    /**
+     * Sender en forespørsel til tjeneren T hvor en ber om å trekke fra
+     * et nummer fra verdien V.
+     */
     public static void subFromNumber() {
         System.out.print("Enter number to subtract: ");
         int num = input.nextInt();
@@ -110,6 +135,10 @@ public class Client {
         }
     }
 
+    /**
+     * Sender en forespørsel til tjeneren T hvor en ber om historien
+     * til tjeneren, og skriver dette ut hos klienten.
+     */
     public static void getHistory() {
         try {
             out.writeBytes("HISTORY\n");
@@ -124,6 +153,10 @@ public class Client {
         }
     }
 
+    /**
+     * Sender en forespørsel til tjeneren T hvor en ber om å
+     * avslutte tjeneren.
+     */
     public static void killServer() {
         try {
             out.writeBytes("KILL\n");
@@ -132,7 +165,10 @@ public class Client {
         }
     }
 
-    public static void stopClient() {
+    /**
+     * Lukker clientSocket, input- og outputstream.
+     */
+    public static void closeConnection() {
         try {
             in.close();
             out.close();
