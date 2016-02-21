@@ -29,7 +29,7 @@ public class K {
     /**
      * Lager en enkel tekstbasert flervalgsmeny.
      */
-    public static void menu() {
+    private static void menu() {
         boolean run = true;
         int valg = 0;
 
@@ -87,7 +87,7 @@ public class K {
      * Kobler til tjeneren T via clientSocket.
      * Setter opp out- og inputstream med clientSocket.
      */
-    public static void handshake() {
+    private static void handshake() {
         try {
             clientSocket = new Socket("127.0.0.1", 7001);
             out = new DataOutputStream(clientSocket.getOutputStream());
@@ -100,7 +100,7 @@ public class K {
     /**
      * Sender en forespørsel til tjeneren T hvor en ber om verdien til V.
      */
-    public static void getNumber() {
+    private static void getNumber() {
         try {
             out.writeBytes("GET\n");
             System.out.println("Retur: " + in.readLine());
@@ -113,7 +113,7 @@ public class K {
      * Sender en forespørsel til tjeneren T hvor en ber om å legge til
      * et nummer til verdien V.
      */
-    public static void addToNumber() {
+    private static void addToNumber() {
         System.out.print("Enter number to add: ");
         int num = scanner.nextInt();
         try {
@@ -128,7 +128,7 @@ public class K {
      * Sender en forespørsel til tjeneren T hvor en ber om å trekke fra
      * et nummer fra verdien V.
      */
-    public static void subFromNumber() {
+    private static void subFromNumber() {
         System.out.print("Enter number to subtract: ");
         int num = scanner.nextInt();
         try {
@@ -143,7 +143,7 @@ public class K {
      * Sender en forespørsel til tjeneren T hvor en ber om historien
      * til tjeneren, og skriver dette ut hos klienten.
      */
-    public static void getHistory() {
+    private static void getHistory() {
         try {
             out.writeBytes("HISTORY\n");
             String historyReturn = in.readLine();
@@ -161,7 +161,7 @@ public class K {
      * Sender en forespørsel til tjeneren T hvor en ber om å
      * avslutte tjeneren.
      */
-    public static void killServer() {
+    private static void killServer() {
         try {
             out.writeBytes("KILL\n");
         } catch (Exception e) {
@@ -172,7 +172,7 @@ public class K {
     /**
      * Lukker clientSocket, input- og outputstream.
      */
-    public static void closeConnection() {
+    private static void closeConnection() {
         try {
             in.close();
             out.close();
@@ -187,7 +187,7 @@ public class K {
      *
      * @return tallet
      */
-    public static int getNumberFromKeyboard() {
+    private static int getNumberFromKeyboard() {
         int number = -1;
         while (number == -1) {
             System.out.println("\nVelg en handling: ");
