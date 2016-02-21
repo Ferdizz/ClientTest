@@ -71,9 +71,14 @@ public class K {
                     closeConnection();
                     run = false;
                     break;
+                default:
+                    System.out.println("Ugyldig valg! Prøv på nytt...");
+                    break;
             }
 
-            closeConnection();
+            if (clientSocket != null && clientSocket.isConnected()) {
+                closeConnection();
+            }
 
         }
     }
