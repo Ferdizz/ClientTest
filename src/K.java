@@ -7,7 +7,7 @@ import java.util.Scanner;
 
 /**
  * Klienten K
- *
+ * <p/>
  * Tilbyr bruker en enkel meny med mulighet til å be om,
  * legge til og trekke fra et nummer. Kan også hente historien
  * med oversikt over hvilke request det er gjort til tjeneren T.
@@ -68,7 +68,7 @@ public class K {
                     killServer();
                     break;
                 case 6:
-                    closeConnection();
+                    System.out.println("Avslutter...");
                     run = false;
                     break;
                 default:
@@ -76,9 +76,7 @@ public class K {
                     break;
             }
 
-            if (clientSocket != null && clientSocket.isConnected()) {
-                closeConnection();
-            }
+            closeConnection();
 
         }
     }
@@ -93,7 +91,8 @@ public class K {
             out = new DataOutputStream(clientSocket.getOutputStream());
             in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
         } catch (IOException e) {
-            e.printStackTrace();
+            //e.printStackTrace();
+            System.out.println("Connection failed! Is the server up and running?");
         }
     }
 
@@ -101,11 +100,13 @@ public class K {
      * Sender en forespørsel til tjeneren T hvor en ber om verdien til V.
      */
     private static void getNumber() {
-        try {
-            out.writeBytes("GET\n");
-            System.out.println("Retur: " + in.readLine());
-        } catch (Exception e) {
-            e.printStackTrace();
+        if (clientSocket != null && clientSocket.isConnected()) {
+            try {
+                out.writeBytes("GET\n");
+                System.out.println("Retur: " + in.readLine());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -114,13 +115,15 @@ public class K {
      * et nummer til verdien V.
      */
     private static void addToNumber() {
-        System.out.print("Enter number to add: ");
-        int num = scanner.nextInt();
-        try {
-            out.writeBytes("ADD " + num + "\n");
-            System.out.println("Retur: " + in.readLine());
-        } catch (Exception e) {
-            e.printStackTrace();
+        if (clientSocket != null && clientSocket.isConnected()) {
+            System.out.print("Enter number to add: ");
+            int num = scanner.nextInt();
+            try {
+                out.writeBytes("ADD " + num + "\n");
+                System.out.println("Retur: " + in.readLine());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -129,13 +132,15 @@ public class K {
      * et nummer fra verdien V.
      */
     private static void subFromNumber() {
-        System.out.print("Enter number to subtract: ");
-        int num = scanner.nextInt();
-        try {
-            out.writeBytes("SUB " + num + "\n");
-            System.out.println("Retur: " + in.readLine());
-        } catch (Exception e) {
-            e.printStackTrace();
+        if (clientSocket != null && clientSocket.isConnected()) {
+            System.out.print("Enter number to subtract: ");
+            int num = scanner.nextInt();
+            try {
+                out.writeBytes("SUB " + num + "\n");
+                System.out.println("Retur: " + in.readLine());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -144,16 +149,18 @@ public class K {
      * til tjeneren, og skriver dette ut hos klienten.
      */
     private static void getHistory() {
-        try {
-            out.writeBytes("HISTORY\n");
-            String historyReturn = in.readLine();
-            System.out.println("Historie: ");
-            String[] historyTab = historyReturn.split("NEW_LINE");
-            for (String s : historyTab) {
-                System.out.println(s);
+        if (clientSocket != null && clientSocket.isConnected()) {
+            try {
+                out.writeBytes("HISTORY\n");
+                String historyReturn = in.readLine();
+                System.out.println("Historie: ");
+                String[] historyTab = historyReturn.split("NEW_LINE");
+                for (String s : historyTab) {
+                    System.out.println(s);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-        } catch (Exception e) {
-            e.printStackTrace();
         }
     }
 
@@ -162,10 +169,12 @@ public class K {
      * avslutte tjeneren.
      */
     private static void killServer() {
-        try {
-            out.writeBytes("KILL\n");
-        } catch (Exception e) {
-            e.printStackTrace();
+        if (clientSocket != null && clientSocket.isConnected()) {
+            try {
+                out.writeBytes("KILL\n");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -173,12 +182,14 @@ public class K {
      * Lukker clientSocket, input- og outputstream.
      */
     private static void closeConnection() {
-        try {
-            in.close();
-            out.close();
-            clientSocket.close();
-        } catch (Exception e) {
-            e.printStackTrace();
+        if (clientSocket != null && clientSocket.isConnected()) {
+            try {
+                in.close();
+                out.close();
+                clientSocket.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 
