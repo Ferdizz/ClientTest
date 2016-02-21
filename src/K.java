@@ -7,7 +7,7 @@ import java.util.Scanner;
 
 /**
  * Klienten K
- * <p/>
+ *
  * Tilbyr bruker en enkel meny med mulighet til å be om,
  * legge til og trekke fra et nummer. Kan også hente historien
  * med oversikt over hvilke request det er gjort til tjeneren T.
@@ -16,7 +16,7 @@ import java.util.Scanner;
  * @author Jarand Homleid Haugen og Ferdinand Forgaard
  * @version 1.0
  */
-public class Client {
+public class K {
     private static Scanner input;
     private static Socket clientSocket;
     private static BufferedReader in;
